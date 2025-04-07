@@ -11,6 +11,10 @@ jobs:
   deploy:
     name: Deploy MkDocs Site # Job 的名称
     runs-on: ubuntu-latest # 使用最新的 Ubuntu 运行环境
+    permissions:
+      contents: write # 允许向仓库写入内容（例如推送 gh-pages 分支）
+      pages: write    # 允许管理 GitHub Pages 设置 (推荐)
+      id-token: write # 允许请求 OIDC 令牌 (某些部署方法需要
     steps:
       - name: Checkout repository # 第一步：检出代码
         uses: actions/checkout@v4 # 使用官方的 checkout action，建议使用较新版本
