@@ -44,11 +44,6 @@ markdown_extensions:
       generic: true
   - admonition
   - pymdownx.details
-  - pymdownx.superfences:
-      custom_fences:  # 添加伪代码语法识别
-        - name: pseudocode
-          class: pseudocode
-          format: !!python/name:pymdownx.superfences.fence_div_format
 extra_javascript:
   # ========== 数学公式支持 ==========
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js
