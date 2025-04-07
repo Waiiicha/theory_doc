@@ -1,0 +1,5 @@
+# requirements.txt
+mkdocs
+mkdocs-rtd-dropdown # 您的主题名，请替换为实际安装的包名
+pymdownx-extensions # pymdownx 包的名称是 pymdownx-extensions
+# 其他您可能需要的插件包，例如 mkdocs-material (如果使用) 等

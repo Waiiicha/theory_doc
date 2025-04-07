@@ -1,57 +1,37 @@
-name: Deploy MkDocs site to GitHub Pages
+# .github/workflows/deploy-mkdocs.yml
+
+name: Deploy MkDocs site to GitHub Pages # 工作流程的名称
 
 on:
-  # 当推送到 main 分支时触发部署
   push:
     branches:
-      - main
-  # 允许手动触发部署
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+      - main # 仅在推送到 main 分支时触发
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    name: Deploy MkDocs Site # Job 的名称
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 运行环境
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository # 第一步：检出代码
+        uses: actions/checkout@v4 # 使用官方的 checkout action，建议使用较新版本
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Python # 第二步：设置 Python 环境
+        uses: actions/setup-python@v4 # 使用官方的 setup-python action
         with:
-          python-version: 3.x # 或者指定一个具体的 Python 版本，如 3.11
+          python-version: 3.x # 指定一个 Python 版本，'3.x' 会选择最新的 3.x 版本
 
-      - name: Install dependencies
+      - name: Install dependencies # 第三步：安装依赖
         run: |
-          pip install mkdocs
-          # 如果你使用了 MkDocs 主题或插件，也需要在这里安装
-          # 例如: pip install mkdocs-material mkdocs-awesome-pages-plugin
-          # 最好是使用 requirements.txt 文件管理依赖:
-          # pip install -r requirements.txt
+          python -m pip install --upgrade pip # 升级 pip
+          pip install -r requirements.txt # 从 requirements.txt 文件安装所有依赖项
 
-      - name: Build MkDocs site
-        run: mkdocs build
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # 上传整个 'site' 目录
-          path: './site'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages # 第四步：部署到 GitHub Pages
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master # 使用部署 Action
+        # 注意：此 Action 通常会查找 mkdocs.yml 和 requirements.txt 并自动执行 mkdocs build 和部署
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 部署需要 GITHUB_TOKEN 权限，GitHub Actions 会自动提供
+          # 可选配置（如果需要）:
+          # CONFIG_FILE: mkdocs.yml # 指定 mkdocs.yml 文件路径 (如果不在根目录)
+          # REQUIREMENTS: requirements.txt # 指定 requirements.txt 文件路径 (如果 Action 不能自动找到)
+          # CUSTOM_DOMAIN: your.custom.domain.com # 如果您使用自定义域名
+          # GITHUB_DOMAIN: github.myenterprise.com # 如果您使用 GitHub Enterprise
