@@ -1,14 +1,57 @@
-name: Deploy
+name: Deploy MkDocs site to GitHub Pages
+
 on:
+  # 当推送到 main 分支时触发部署
   push:
-    branches: [ main ]
+    branches:
+      - main
+  # 允许手动触发部署
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.x
-      - run: pip install mkdocs-material
-      - run: mkdocs gh-deploy --force
+          python-version: 3.x # 或者指定一个具体的 Python 版本，如 3.11
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs
+          # 如果你使用了 MkDocs 主题或插件，也需要在这里安装
+          # 例如: pip install mkdocs-material mkdocs-awesome-pages-plugin
+          # 最好是使用 requirements.txt 文件管理依赖:
+          # pip install -r requirements.txt
+
+      - name: Build MkDocs site
+        run: mkdocs build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 上传整个 'site' 目录
+          path: './site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
