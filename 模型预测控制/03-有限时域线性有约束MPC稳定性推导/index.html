@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>有限时域线性有约束MPC稳定性推导 - 理论知识库</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u6709\u9650\u65f6\u57df\u7ebf\u6027\u6709\u7ea6\u675fMPC\u7a33\u5b9a\u6027\u63a8\u5bfc";
+    var mkdocs_page_input_path = "\u6a21\u578b\u9884\u6d4b\u63a7\u5236/03-\u6709\u9650\u65f6\u57df\u7ebf\u6027\u6709\u7ea6\u675fMPC\u7a33\u5b9a\u6027\u63a8\u5bfc.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> 理论知识库</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="tocbase current">
+    
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../..">Welcome to MkDocs</a>
+  </li>
+    
+      
+  <li class="navtree toctree-l1 label">
+    <p class="caption">强化学习</p>
+  </li>
+
+
+  
+
+  
+    <li class="navtree toctree-l1 group">
+      <ul class="navtree subnav-l1 current">
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../../%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">基础概念</a>
+  </li>
+        
+      </ul>
+    </li>
+    
+      
+  <li class="navtree toctree-l1 label">
+    <p class="caption">模型预测控制</p>
+  </li>
+
+
+  
+
+  
+    <li class="navtree toctree-l1 group">
+      <ul class="navtree subnav-l1 current">
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/">常用定理、矩阵</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../02-%E7%BA%BF%E6%80%A7%E6%97%A0%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/">线性无约束MPC稳定性推导</a>
+  </li>
+        
+          
+
+
+  
+    
+    <li class="navtree toctree-l2 page current">
+      <a class="current" href="./">
+        有限时域线性有约束MPC稳定性推导
+          <span class="toctree-expand"></span>
+      </a>
+    </li>
+    
+      
+
+
+
+  <li class="toctree-l2 current">
+    <ul class="subnav-l2 current">
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#_1">终端等式约束情况</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#_2">终端不等式约束+终端代价情况</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#_3">稳定性的一般证明方法</a>
+        </li>
+    
+    </ul>
+  </li>
+
+
+  
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../04-MPC%E7%BB%88%E7%AB%AF%E9%9B%86%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/">MPC 终端集设计方法</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../05-MPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/">MPC稳定性的应用</a>
+  </li>
+        
+      </ul>
+    </li>
+    
+  </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">理论知识库</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>模型预测控制 &raquo;</li>
+        
+      
+    
+    <li>有限时域线性有约束MPC稳定性推导</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mpc">有限时域线性有约束MPC稳定性推导</h1>
+<hr />
+<p>线性时不变系统的离散表达式满足：</p>
+<p><a id="eq:std_lti_st_func"></a></p>
+<div class="arithmatex">\[
+x(k+1) =  A  x(k) +  B  u(k)
+\]</div>
+<h2 id="_1">终端等式约束情况</h2>
+<p>终端等式指对预测时域的最后一个状态施加<span class="arithmatex">\(x(N|k)=0\)</span>约束。</p>
+<div class="admonition info">
+<p class="admonition-title">命题</p>
+<p>有限时域线性有约束MPC在设置终端等式约束<span class="arithmatex">\(x(N|k)=0\)</span>后，在平衡点附近具有渐进稳定性。</p>
+<p>此时，有限时域线性时不变有约束模型预测控制问题描述如下：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+J = &amp; \sum_{i=1}^{N} \left\|  x(i|k) \right\|_{ Q}^2 + \sum_{i=1}^{N} \left\|  u(i-1|k) \right\|_{ R}^2 \\
+\text{subj.to.} \quad &amp;  x(0|k) =  x(k), \\
+&amp; Gx(i|k) + Hu(i-1|k) \leq 1, \  \forall i = 0,1,\ldots, N,\\
+&amp; x(i+1|k) =  A  x(i|k) +  B  u(i|k), \  \forall i = 0,1,\ldots, N-1,\\
+&amp; x(N|k) = 0. 
+\end{aligned}
+\]</div>
+<p>其中，<span class="arithmatex">\({ Q}\)</span>为半正定矩阵，<span class="arithmatex">\({ R}\)</span>为正定矩阵。</p>
+</div>
+<h2 id="_2">终端不等式约束+终端代价情况</h2>
+<div class="admonition info">
+<p class="admonition-title">命题</p>
+<p>有限时域线性有约束MPC在选取合适的终端代价权重P，并设置终端不等式约束<span class="arithmatex">\(x(N|k) \in \mathcal X_f \subset  \Omega\)</span>后（终端集需要具有控制不变性和约束兼容性），在平衡点附近具有渐进稳定性。</p>
+<p>此时，有限时域线性时不变有约束模型预测控制问题描述如下：</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+    J = &amp; \sum_{i=1}^{N-1} \left\|  x(i|k) \right\|_{ Q}^2 + \sum_{i=1}^{N} \left\|  u(i-1|k) \right\|_{ R}^2 + \left\|  x(N|k) \right\|_{P}^2 \\
+    \text{subj.to.} \quad &amp;  x(0|k) =  x(k), \\
+    &amp; Gx(i|k) + Hu(i-1|k) \leq 1, \  \forall i = 0,1,\ldots, N,\\
+    &amp; x(i+1|k) =  A  x(i|k) +  B  u(i|k), \  \forall i = 0,1,\ldots, N-1,\\
+    &amp; x(N|k) \in \mathcal X_f \subset  \Omega. 
+    \end{aligned}
+\]</div>
+<p>其中，<span class="arithmatex">\({ Q}\)</span>为半正定矩阵，<span class="arithmatex">\({ R}\)</span>为正定矩阵，<span class="arithmatex">\(P\)</span>为<span class="arithmatex">\(P - ( A -  B  K)^T  P ( A- B K) =  Q +  K^T  R  K\)</span>的解，<span class="arithmatex">\(K\)</span>满足<span class="arithmatex">\(|\text{eig}( A -  B K)| &lt; 1\)</span>，<span class="arithmatex">\(\Omega\)</span>为不变集。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">证明</p>
+<p>因为<span class="arithmatex">\(Gx(i|k) + Hu(i-1|k) \leq 1, \  \forall i = 0,1,\ldots, N\)</span>，
+故<span class="arithmatex">\(x(N|k)\)</span>也满足状态约束。</p>
+<p>因此，设<span class="arithmatex">\(\mathcal X\)</span>为状态约束集合，则有<span class="arithmatex">\(x(N|k) \in \mathcal X_f \subset \Omega \subseteq \mathcal X\)</span>。</p>
+<p>由不变集的性质可知：</p>
+<div class="arithmatex">\[
+    x(i|k) \in \Omega \Rightarrow x(i+1|k) \in \Omega.
+\]</div>
+<p>所以有：<span class="arithmatex">\(x(i|k) \in \mathcal X, \  \forall i = N+1,N+2,\ldots, \infty\)</span>。</p>
+<p>可以得到结论，只要<span class="arithmatex">\(x(N|k)\)</span>在终端集内，往后的<span class="arithmatex">\(x(i|k)\)</span>都自然满足状态约束。</p>
+<p>后续证明方法与无限时域线性有约束MPC一致。</p>
+</div>
+<p>终端不等式约束+终端代价情况下稳定性证明的核心是选取合适的终端集<span class="arithmatex">\(X_f\)</span>。</p>
+<h2 id="_3">稳定性的一般证明方法</h2>
+<p>其实MPC稳定性证明的核心就是选取包含终端代价的最优代价函数作为Lyapunov函数，同时通过设计终端约束/终端集为不变集，以此保证一旦系统进入终端集就可以通过终端控制律来构造可行解。</p>
+<div class="admonition abstract">
+<p class="admonition-title">定理</p>
+<p>对于线性时不变系统</p>
+<div class="arithmatex">\[
+x(k+1) = Ax(k) + Bu(k),
+\]</div>
+<p>假设：</p>
+<ul>
+<li>状态约束集合 <span class="arithmatex">\(\mathcal{X}\)</span> 和输入约束集合 <span class="arithmatex">\(\mathcal{U}\)</span> 是闭的凸集合，且包含原点；</li>
+<li>终端约束集合 <span class="arithmatex">\(\mathcal{X}_f\)</span> 满足以下条件：</li>
+<li><span class="arithmatex">\(\mathcal{X}_f \subseteq \mathcal{X}\)</span>，且闭包；</li>
+<li><span class="arithmatex">\(\mathcal{X}_f\)</span> 是正不变的，即如果 <span class="arithmatex">\(x_{N|k} \in \mathcal{X}_f\)</span>，则在终端控制律 <span class="arithmatex">\(u = Kx\)</span> 下，后续状态 <span class="arithmatex">\(x(k) \in \mathcal{X}_f\)</span>；</li>
+<li>终端控制律 <span class="arithmatex">\(u = Kx\)</span> 使得闭环系统 <span class="arithmatex">\(x(k+1) = (A + BK)x(k)\)</span> 渐近稳定；</li>
+<li>终端权重矩阵 <span class="arithmatex">\(P\)</span> 满足离散Lyapunov方程：</li>
+</ul>
+<div class="arithmatex">\[
+\begin{aligned}
+    &amp;  P - ( A -  B  K)^T  P ( A- B K) =  Q +  K^T  R  K, \\
+    &amp; |\text{eig}( A -  B K)| &lt; 1
+\end{aligned}
+\]</div>
+<p>且 <span class="arithmatex">\(P \succeq 0\)</span>；</p>
+<ul>
+<li>权重矩阵 <span class="arithmatex">\(Q \succeq 0\)</span>、<span class="arithmatex">\(R \succ 0\)</span>。
+  则在上述条件下，采用以下MPC控制律：</li>
+</ul>
+<div class="arithmatex">\[
+u(k) = u_{0|k}^*,
+\]</div>
+<p>其中 <span class="arithmatex">\(u_{0|k}^*\)</span> 是优化问题</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\min_{u_{i|k}} J &amp;= \sum_{i=0}^{N-1} \left( \|x_{i|k}\|_Q^2 + \|u_{i|k}\|_R^2 \right) + \|x_{N|k}\|_P^2 \\
+\text{subj.to.} \quad &amp;  x(0|k) =  x(k), \\
+&amp; x_{i+1|k} = Ax_{i|k} + Bu_{i|k}, \  \forall i = 0,1,\ldots, N-1,\\
+&amp; x_{i|k} \in \mathcal{X},  \  \forall i = 0,1,\ldots, N,\\
+&amp; u_{i|k} \in \mathcal{U},  \  \forall i = 0,1,\ldots, N,\\
+&amp; x_{N|k} \in \mathcal{X}_f,
+\end{aligned}
+\]</div>
+<p>的最优解，所得到的闭环系统是渐近稳定的。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">证明</p>
+<p>定义 Lyapunov 函数 <span class="arithmatex">\(V(x(k))\)</span> 为优化问题的最优目标值：</p>
+<div class="arithmatex">\[
+V(x(k)) = \sum_{i=0}^{N-1} \left( \|x_{i|k}^*\|_Q^2 + \|u_{i|k}^*\|_R^2 \right) + \|x_{N|k}^*\|_P^2,
+\]</div>
+<p>其中：</p>
+<ul>
+<li><span class="arithmatex">\(x_{i|k}^*\)</span> 和 <span class="arithmatex">\(u_{i|k}^*\)</span> 是以当前状态 <span class="arithmatex">\(x(k)\)</span> 为初始状态的最优预测序列；</li>
+<li><span class="arithmatex">\(x_{0|k}^* = x(k)\)</span>；</li>
+<li><span class="arithmatex">\(\|x\|_Q^2 = x^\top Q x\)</span> 表示加权的 <span class="arithmatex">\(\ell_2\)</span> 范数平方。</li>
+</ul>
+<p>首先，需要证明 <span class="arithmatex">\(V(x(k))\)</span> 是一个 Lyapunov 函数，即：</p>
+<ul>
+<li><span class="arithmatex">\(V(x(k)) \geq 0\)</span>，且 <span class="arithmatex">\(V(x(k)) = 0 \iff x(k) = 0\)</span>；</li>
+<li><span class="arithmatex">\(V(x(k+1)) - V(x(k)) \leq -\alpha \|x(k)\|^2\)</span>，其中 <span class="arithmatex">\(\alpha &gt; 0\)</span>。
+由于 <span class="arithmatex">\(Q \succeq 0\)</span>、<span class="arithmatex">\(R \succ 0\)</span>、<span class="arithmatex">\(P \succeq 0\)</span>，可以证明：</li>
+</ul>
+<div class="arithmatex">\[
+V(x(k)) \geq 0, \quad \forall x(k) \in \mathbb{R}^n.
+\]</div>
+<p>此外，如果 <span class="arithmatex">\(x(k) = 0\)</span>，则最优状态序列和控制序列为零（即 <span class="arithmatex">\(x_{i|k}^* = 0, u_{i|k}^* = 0\)</span>），从而：</p>
+<div class="arithmatex">\[
+V(x(k)) = 0.
+\]</div>
+<p>反之，如果 <span class="arithmatex">\(V(x(k)) = 0\)</span>，则 <span class="arithmatex">\(x_{i|k}^* = 0, u_{i|k}^* = 0\)</span>，从而 <span class="arithmatex">\(x(k) = 0\)</span>。</p>
+<p>因此，<span class="arithmatex">\(V(x(k))\)</span> 是正定函数。</p>
+<p>然后，需要证明Lyapunov函数的下降性。</p>
+<p>假设在时刻 <span class="arithmatex">\(k\)</span>，优化问题的最优解为：</p>
+<ul>
+<li>最优控制输入序列：<span class="arithmatex">\(\bm{u}^* = \{u_{0|k}^*, u_{1|k}^*, \dots, u_{N-1|k}^*\}\)</span>；</li>
+<li>最优状态序列：<span class="arithmatex">\(\bm{x}^* = \{x_{0|k}^*, x_{1|k}^*, \dots, x_{N|k}^*\}\)</span>，其中 <span class="arithmatex">\(x_{0|k}^* = x(k)\)</span>。
+应用第一个控制输入 <span class="arithmatex">\(u(k) = u_{0|k}^*\)</span> 后，系统进入下一个状态：</li>
+</ul>
+<div class="arithmatex">\[
+x(k+1) = Ax(k) + Bu_{0|k}^*.
+\]</div>
+<p>在时刻 <span class="arithmatex">\(k+1\)</span>，构造一个可行控制序列：</p>
+<div class="arithmatex">\[
+\tilde{\bm{u}} = \{u_{1|k}^*, u_{2|k}^*, \dots, u_{N-1|k}^*, Kx_{N|k}^*\},
+\]</div>
+<p>对应的状态序列为：</p>
+<div class="arithmatex">\[
+\tilde{\bm{x}} = \{x_{0|k+1}, x_{1|k+1}, \dots, x_{N|k+1}\},
+\]</div>
+<p>其中：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+    x_{0|k+1} &amp;= x(k+1) = x_{1|k}^*, \\
+    x_{i+1|k+1} &amp;= Ax_{i|k+1} + Bu_{i|k+1}, \quad \forall i = 0, 1, \dots, N-1.
+\end{aligned}
+\]</div>
+<div class="arithmatex">\[
+V(x(k+1)) \leq \sum_{i=0}^{N-1} \left( \|x_{i|k+1}\|_Q^2 + \|u_{i|k+1}\|_R^2 \right) + \|x_{N|k+1}\|_P^2.
+\]</div>
+<p>将 <span class="arithmatex">\(\tilde{\bm{u}}\)</span> 和 <span class="arithmatex">\(\tilde{\bm{x}}\)</span> 的具体形式代入，可以得到：</p>
+<div class="arithmatex">\[
+V(x(k+1)) \leq \sum_{i=1}^{N-1} \left( \|x_{i|k}\|_Q^2 + \|u_{i|k}\|_R^2 \right) + \|x_{N|k}\|_Q^2 + \|Kx_{N|k}^*\|_R^2 + \|(A+BK)x_{N|k}^*\|_P^2.
+\]</div>
+<p>利用离散Lyapunov函数的性质，可以证明：</p>
+<div class="arithmatex">\[
+\|x_{N|k}\|_Q^2 + \|Kx_{N|k}^*\|_R^2 + \|(A+BK)x_{N|k}^*\|_P^2 \leq \|x_{N|k}\|_P^2.
+\]</div>
+<p>因此，有：</p>
+<div class="arithmatex">\[
+V(x(k+1)) - V(x(k)) \leq -\|x_{0|k}\|_Q^2 - \|u_{0|k}\|_R^2.
+\]</div>
+<p>令 <span class="arithmatex">\(\alpha = \min\{\lambda_{\min}(Q), \lambda_{\min}(R)\}\)</span>，则：</p>
+<div class="arithmatex">\[
+V(x(k+1)) - V(x(k)) \leq -\alpha \|x(k)\|^2.
+\]</div>
+<p>综上，根据Lyapunov稳定性理论，<span class="arithmatex">\(V(x(k))\)</span>是正定函数，且沿闭环系统轨迹单调递减，因此闭环系统是渐近稳定的。</p>
+</div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../04-MPC%E7%BB%88%E7%AB%AF%E9%9B%86%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" class="btn btn-neutral float-right" title="MPC 终端集设计方法">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../02-%E7%BA%BF%E6%80%A7%E6%97%A0%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/" class="btn btn-neutral" title="线性无约束MPC稳定性推导"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../02-%E7%BA%BF%E6%80%A7%E6%97%A0%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../04-MPC%E7%BB%88%E7%AB%AF%E9%9B%86%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js" defer></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js" defer></script>
+      <script src="../../javascripts/katex-init.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

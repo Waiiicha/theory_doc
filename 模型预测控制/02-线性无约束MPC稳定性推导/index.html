@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>线性无约束MPC稳定性推导 - 理论知识库</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "\u7ebf\u6027\u65e0\u7ea6\u675fMPC\u7a33\u5b9a\u6027\u63a8\u5bfc";
+    var mkdocs_page_input_path = "\u6a21\u578b\u9884\u6d4b\u63a7\u5236/02-\u7ebf\u6027\u65e0\u7ea6\u675fMPC\u7a33\u5b9a\u6027\u63a8\u5bfc.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> 理论知识库</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="tocbase current">
+    
+    
+      
+
+
+  <li class="navtree toctree-l1 inactive">
+    <a class="" href="../..">Welcome to MkDocs</a>
+  </li>
+    
+      
+  <li class="navtree toctree-l1 label">
+    <p class="caption">强化学习</p>
+  </li>
+
+
+  
+
+  
+    <li class="navtree toctree-l1 group">
+      <ul class="navtree subnav-l1 current">
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../../%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/">基础概念</a>
+  </li>
+        
+      </ul>
+    </li>
+    
+      
+  <li class="navtree toctree-l1 label">
+    <p class="caption">模型预测控制</p>
+  </li>
+
+
+  
+
+  
+    <li class="navtree toctree-l1 group">
+      <ul class="navtree subnav-l1 current">
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/">常用定理、矩阵</a>
+  </li>
+        
+          
+
+
+  
+    
+    <li class="navtree toctree-l2 page current">
+      <a class="current" href="./">
+        线性无约束MPC稳定性推导
+          <span class="toctree-expand"></span>
+      </a>
+    </li>
+    
+      
+
+
+
+  <li class="toctree-l2 current">
+    <ul class="subnav-l2 current">
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#_1">无限时域情况</a>
+        </li>
+    
+      
+        <li class="toctree-l3">
+          <a class="toctree-l4" href="#_2">有限时域情况</a>
+        </li>
+    
+    </ul>
+  </li>
+
+
+  
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../03-%E6%9C%89%E9%99%90%E6%97%B6%E5%9F%9F%E7%BA%BF%E6%80%A7%E6%9C%89%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/">有限时域线性有约束MPC稳定性推导</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../04-MPC%E7%BB%88%E7%AB%AF%E9%9B%86%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/">MPC 终端集设计方法</a>
+  </li>
+        
+          
+
+
+  <li class="navtree toctree-l2 inactive">
+    <a class="" href="../05-MPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E7%9A%84%E5%BA%94%E7%94%A8/">MPC稳定性的应用</a>
+  </li>
+        
+      </ul>
+    </li>
+    
+  </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">理论知识库</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>模型预测控制 &raquo;</li>
+        
+      
+    
+    <li>线性无约束MPC稳定性推导</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mpc">线性无约束MPC稳定性推导</h1>
+<hr />
+<p>线性时不变系统的离散表达式满足：</p>
+<p><a id="eq:std_lti_st_func"></a></p>
+<div class="arithmatex">\[
+x(k+1) =  A  x(k) +  B  u(k)
+\]</div>
+<h2 id="_1">无限时域情况</h2>
+<div class="admonition info">
+<p class="admonition-title">命题</p>
+<p>无限时域线性无约束MPC在平衡点附近具有渐进稳定性，且等价于LQR。
+此时，无限时域线性时不变无约束模型预测控制问题描述如下：</p>
+<div class="arithmatex">\[
+\begin{aligned}
+J = &amp; \min_{U(k)} \sum_{i=1}^{\infty} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) \\
+\text{subj.to.} \quad &amp;  x(0|k) =  x(k), \\
+&amp;  x(i+1|k) =  A  x(i|k) +  B  u(i|k), \  \forall i = 0, 1, \ldots, N-1. 
+\end{aligned}
+\]</div>
+<p>其中，<span class="arithmatex">\({ Q}\)</span>为半正定矩阵，<span class="arithmatex">\({ R}\)</span>为正定矩阵。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">证明</p>
+<p>将当前时刻<span class="arithmatex">\(k\)</span>计算得到的最优控制序列直接应用到下一时刻<span class="arithmatex">\(k\)</span>：</p>
+<div class="arithmatex">\[
+u(i|k+1) = u^*(i+1|k).
+\]</div>
+<p>可以得到"State shift"：</p>
+<div class="arithmatex">\[
+    x(i|k+1) = x^*(i+1|k).
+\]</div>
+<p>选取最优代价函数<span class="arithmatex">\(J^*\)</span>作为Lyapunov函数，可以证明：</p>
+<div class="arithmatex">\[
+    J^{*}(k+1)-J^{*}(k) \leq J(k+1)-J^{*}(k) = -\|x(1|k)\|_{Q}^{2}-\|u(0|k)\|_{R}^{2} &lt; 0
+\]</div>
+<p>由于是无限时域，再加上“State shift”，<span class="arithmatex">\(J(k+1)-J^{*}(k)\)</span>仅第一项存在差异。</p>
+<p>综上，由于<span class="arithmatex">\(J^{*}\)</span>本身正定，而<span class="arithmatex">\(J^{*}(k+1)-J^{*}(k)\)</span>负定，所以根据<a href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/#theorem:lya_stab">Lyapunov稳定性定理</a>可知无限时域线性无约束MPC在平衡点附近是渐进稳定的。</p>
+</div>
+<h2 id="_2">有限时域情况</h2>
+<div class="admonition info">
+<p class="admonition-title">命题</p>
+<p>有限时域线性无约束MPC在选取合适的终端代价权重P后，在平衡点附近具有渐进稳定性。
+其中，<span class="arithmatex">\(P\)</span>是<a href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/#def:dis_Lya_func">离散Lyapunov方程</a>的解。</p>
+<p>此时，有限时域线性时不变无约束模型预测控制问题描述如下：</p>
+<div class="arithmatex">\[
+    \begin{align}
+    J = &amp; \sum_{i=1}^{N-1} \left\|  x(i|k) \right\|_{ Q}^2 + \sum_{i=1}^{N} \left\|  u(i-1|k) \right\|_{ R}^2 + \left\|  x(N|k) \right\|_{P}^2 \\
+    \text{subj.to.} \quad &amp;  x(0|k) =  x(k), \\
+    &amp;  x(i+1|k) =  A  x(i|k) +  B  u(i|k), \  \forall i = 0,1,\ldots, N-1. 
+    \end{align}
+\]</div>
+<p>其中，<span class="arithmatex">\({ Q}\)</span>为半正定矩阵，<span class="arithmatex">\({ R}\)</span>为正定矩阵，<span class="arithmatex">\(P\)</span>为<span class="arithmatex">\(P - ( A -  B  K)^T  P ( A- B K) =  Q +  K^T  R  K\)</span>的解，<span class="arithmatex">\(K\)</span>满足<span class="arithmatex">\(|\text{eig}( A -  B K)| &lt; 1\)</span>。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">证明</p>
+<p>核心是证明有限时域无约束MPC代价函数等价于无限时域MPC的代价函数。</p>
+<p>根据<a href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/#def:dis_Lya_func">离散Lyapunov方程</a>可知：</p>
+<div class="arithmatex">\[
+    \begin{align}
+    x^T[P-(A-BK)^TP(A-BK)]x &amp;= x^T[Q+K^TRK]x, \\
+    x^TPx - x^T(A-BK)^TP(A-BK)x &amp;= x^TQx + x^TK^TRKx.
+    \end{align}
+\]</div>
+<p>带入<a href="#eq:std_lti_st_func">公式</a>可知：</p>
+<div class="arithmatex">\[
+    x(k)^T P x(k) - x^T(k+1)^T P x(k+1) = x^T(k) Q x(k) + u^T(k) R u(k).
+\]</div>
+<p>将<span class="arithmatex">\(x(k)\)</span>改写为<span class="arithmatex">\(x(i|k)\)</span>，<span class="arithmatex">\(x(k+1)\)</span>改写为<span class="arithmatex">\(x(i+1|k)\)</span>，并将上式从<span class="arithmatex">\(i=0\)</span>导<span class="arithmatex">\(i=\infty\)</span>求和可以得到：</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+    &amp; x(0|k)^T P x(0|k) -\underbrace{ x^T(\infty|k)^T P x(\infty|k)}_{\approx 0} = \sum_{i = 0}^{i = \infty}(x^T(i|k) Q x(i|k) + u^T(i|k) R u(i|k)) \\
+    &amp; x(0|k)^T P x(0|k) = x^T(0|k) Q x(0|k) + \sum_{i = 1}^{i = \infty}(x^T(i|k) Q x(i|k) + u^T(i-1|k) R u(i-1|k)) \\
+    &amp; x(0|k)^T P x(0|k) - x^T(0|k) Q x(0|k) = \sum_{i = 1}^{i = \infty}(x^T(i|k) Q x(i|k) + u^T(i-1|k) R u(i-1|k)) \\
+    &amp; \xrightarrow{x(0|k) = x(k)} x(k)^T P x(k) - x^T(k) Q x(k) = J(k)
+    \end{aligned}
+\]</div>
+<p>代价函数<span class="arithmatex">\(J(k)\)</span>还可以通过分段，写成：</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+    J(k) &amp;= \sum_{i=1}^{N-1} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) + \sum_{i=N}^{\infty} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) \\
+    &amp;= \sum_{i=1}^{N-1} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) + \sum_{i=N}^{\infty} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) + \left\| u(N-1|k) \right\|_{ R}^2 \\
+    &amp;=\sum_{i=1}^{N-1} (\left\|  x(i|k) \right\|_{ Q}^2 + \left\|  u(i-1|k) \right\|_{ R}^2) + \left\|  x(N|k) \right\|_{P}^2 + \left\| u(N-1|k) \right\|_{ R}^2 \\
+    &amp;=\sum_{i=1}^{N-1} \left\|  x(i|k) \right\|_{ Q}^2 + \sum_{i=1}^{N} \left\|  u(i-1|k) \right\|_{ R}^2 + \left\|  x(N|k) \right\|_{P}^2 \\
+    &amp;= X(k)^T \mathscr{Q} X(k) + U^T(k) \mathscr{R} U(k) .
+    \end{aligned}
+\]</div>
+<p>其中，</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+    X(k) &amp;= [x(1|k), x(2|k), \ldots, x(N|k)]^T, \\
+    U(k) &amp;= [u(0|k), x(1|k), \ldots, u(N-1|k)]^T, \\
+    \mathscr{Q} &amp;= \text{diag}[\underbrace{Q, Q, \ldots, Q}_{N-1},P],\\
+    \mathscr{R} &amp;= \text{diag}[\underbrace{R, R, \ldots, R, R}_{N}].
+    \end{aligned}
+\]</div>
+<p>当<span class="arithmatex">\(k&lt;N\)</span>时，都采用最优控制律，其余时候采用负反馈控制律(<span class="arithmatex">\(|\text{eig}( A -  B K)| &lt; 1\)</span>)，即：</p>
+<div class="arithmatex">\[
+    \begin{aligned}
+    u(i|k+1) &amp;= u^*(i+1|k) \quad \text{for all } i = 0,1,\ldots,N-1， \\
+    u(i|k+1) &amp;= -Kx(i|k+1) \quad \text{for all } i = N,N+1,\ldots.
+    \end{aligned}
+\]</div>
+<p>后续证明方法与无限时域线性无约束MPC一致。</p>
+</div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../03-%E6%9C%89%E9%99%90%E6%97%B6%E5%9F%9F%E7%BA%BF%E6%80%A7%E6%9C%89%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/" class="btn btn-neutral float-right" title="有限时域线性有约束MPC稳定性推导">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/" class="btn btn-neutral" title="常用定理、矩阵"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../01-%E5%B8%B8%E7%94%A8%E5%AE%9A%E7%90%86%E3%80%81%E7%9F%A9%E9%98%B5/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../03-%E6%9C%89%E9%99%90%E6%97%B6%E5%9F%9F%E7%BA%BF%E6%80%A7%E6%9C%89%E7%BA%A6%E6%9D%9FMPC%E7%A8%B3%E5%AE%9A%E6%80%A7%E6%8E%A8%E5%AF%BC/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js" defer></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js" defer></script>
+      <script src="../../javascripts/katex-init.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>
